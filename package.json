@@ -1,0 +1,17 @@
+{
+  "name": "api-grocery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "micro-cors": "^0.1.1",
+    "mongodb": "^3.4.0",
+    "mongodb-stitch-server-sdk": "^4.7.1",
+    "now": "16.6.3"
+  }
+}
