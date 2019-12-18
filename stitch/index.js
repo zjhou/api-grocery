@@ -8,6 +8,9 @@ const {
 const { Post } = require('./dto');
 const { fetchPosts:fetchPostsByDB } = require('./dao');
 const { updatePost: updatePostByDB } = require('./dao');
+const { deletePost: deletePostByDB } = require('./dao');
+const { createPost: createPostByDB } = require('./dao');
+
 const CONFIG = require('./config');
 const client = Stitch.initializeDefaultAppClient(
   CONFIG.appID,
@@ -15,7 +18,22 @@ const client = Stitch.initializeDefaultAppClient(
 );
 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db(CONFIG.dbName);
 const fetchPosts = fetchPostsByDB({ db, client });
+
 const updatePost = ({ user, password }) => updatePostByDB({
+  db,
+  client,
+  user,
+  password
+});
+
+const deletePost = ({ user, password }) => deletePostByDB({
+  db,
+  client,
+  user,
+  password
+});
+
+const createPost = ({ user, password }) => createPostByDB({
   db,
   client,
   user,
@@ -26,5 +44,7 @@ module.exports = {
   db,
   client,
   fetchPosts,
-  updatePost
+  updatePost,
+  deletePost,
+  createPost,
 };

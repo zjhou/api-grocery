@@ -28,6 +28,22 @@ const fetchPosts = ({ db, client }) => (lastPulledAt) => {
   })
 };
 
+const deletePost = ({db, client, user, password}) => ({ id }) => {
+  return new Promise((resolve, reject) => {
+    if (!id) {
+      reject();
+    }
+    client.auth.loginWithCredential(new UserPasswordCredential(user, password))
+      .then(() => {
+        db.collection('posts').deleteOne({
+          _id: ObjectID(id)
+        })
+          .then(resolve)
+      })
+      .catch(reject)
+  })
+};
+
 const updatePost = ({db, client, user, password}) => ({
   id,
   title,
@@ -56,11 +72,30 @@ const updatePost = ({db, client, user, password}) => ({
   })
 };
 
-const createPost = ({db, client}) => (post) => {
-
-}
+const createPost = ({ db, client, user, password }) => (post) => {
+  const {
+    title = 'unTitle',
+    content = 'none',
+  } = post;
+  return new Promise((resolve, reject) => {
+    client.auth.loginWithCredential(new UserPasswordCredential(user, password))
+      .then(() => {
+        db.collection('posts').insertOne({
+          title,
+          content,
+          type: 'text',
+          last_modified: Date.now() * 1000,
+          created_at: Date.now() * 1000,
+        })
+          .then(resolve)
+      })
+      .catch(reject)
+  })
+};
 
 module.exports = {
   fetchPosts,
+  createPost,
+  deletePost,
   updatePost,
 };
