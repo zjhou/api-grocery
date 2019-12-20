@@ -1,15 +1,15 @@
 const {
   deletePost
-} = require('../../stitch');
+} = require('../../logic/z-blog/');
 
 const { cors } = require('./utils.js');
 
 module.exports = cors(async (req, res) => {
   const {
-    user, password, id,
+    user: username, password, id,
   } = req.body;
   const result = await deletePost({
-    user, password
+    username, password
   })({
     id
   });

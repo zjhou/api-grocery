@@ -1,11 +1,9 @@
+const { stitchSDKAdapter } = require('./adapter/');
 const StitchSDK = require('../../stitch/stitch_sdk');
-const { StitchSDKAdapter } = require('./adapter/');
+const zBlogStitchConfig = require('./config');
 
-const BlogApi = StitchSDKAdapter(StitchSDK);
+const stitchSDK = new StitchSDK(zBlogStitchConfig);
 
-const zBlogConfig = require('./config');
-const zBlogApi = new BlogApi(zBlogConfig);
+const BlogAPI = stitchSDKAdapter(stitchSDK);
 
-module.exports = {
-  fetchPosts: zBlogApi.fetchPosts,
-};
+module.exports = BlogAPI;

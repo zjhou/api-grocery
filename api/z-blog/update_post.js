@@ -1,15 +1,15 @@
 const {
   updatePost
-} = require('../../stitch');
+} = require('../../logic/z-blog/');
 
 const { cors } = require('./utils.js');
 
 module.exports = cors(async (req, res) => {
   const {
-    user, password, id, content
+    user: username, password, id, content
   } = req.body;
   const result = await updatePost({
-    user, password
+    username, password
   })({
     id, content
   });

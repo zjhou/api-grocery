@@ -19,9 +19,9 @@ class StitchSDK {
       RemoteMongoClient.factory,
       config.clusterName
     ).db(config.dbName);
+    this.isAnonymous = true;
   }
 
-  isAnonymous = true;
 
   login(username, password) {
     if (!username || !password) {
@@ -32,7 +32,7 @@ class StitchSDK {
       return this.client.auth.loginWithCredential(
         new UserPasswordCredential(username, password)
       ).then(() => {
-        this.isAnonymous= false;
+        this.isAnonymous = false;
       })
     }
     return Promise.resolve();
@@ -50,7 +50,7 @@ class StitchSDK {
       password,
     } = credential;
 
-    if (this.validate(credential, collectionName, doc)) {
+    if (!this.validate(credential, collectionName, doc)) {
       return Promise.reject(new Error('parameters missing!'))
     }
 
@@ -61,14 +61,16 @@ class StitchSDK {
   }
 
   read(collectionName) {
-    this.login()
+    return this.login()
       .then(() => {
-        return this.db.collection(collectionName).find({})
+        return this.db.collection(collectionName).find()
           .asArray()
-          .map(doc => ({
-            id: doc._id.toString(),
-            ...doc
-          }))
+      })
+      .then((docs) => {
+        return docs.map(doc => ({
+          id: doc._id.toString(),
+          ...doc
+        }))
       })
   }
 
@@ -77,7 +79,7 @@ class StitchSDK {
       username,
       password,
     } = credential;
-    if (this.validate(credential, collectionName, doc)) {
+    if (!this.validate(credential, collectionName, doc)) {
       return Promise.reject(new Error('parameters missing!'))
     }
     const {
@@ -95,12 +97,17 @@ class StitchSDK {
   }
 
   delete(credential, collectionName, doc) {
-    if (this.validate(credential, collectionName, doc.id)) {
+    const {
+      username,
+      password,
+    } = credential;
+    if (!this.validate(username, password, collectionName, doc.id)) {
       return Promise.reject(new Error('parameters missing!'))
     }
-    return this.db.collection(collectionName).deleteOne({
-      _id: ObjectID(doc.id)
-    })
+    return this.login(username, password)
+      .then(() => this.db.collection(collectionName).deleteOne({
+        _id: ObjectID(doc.id)
+      }))
   }
 }
 

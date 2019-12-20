@@ -1,20 +1,29 @@
-const Post = require('../model/');
+const { Post } = require('../model/');
 
-const StitchSDKAdapter = (StitchSDK) => class BlogApi {
-  constructor(config) {
-    this.config = config;
-    this.stitchSDK = new StitchSDK(config)
-  }
+const stitchSDKAdapter = (stitchSDK) => {
+  const postsCollectionName = 'posts';
 
-  async fetchPosts() {
-    const posts = await this.stitchSDK.read(
-      this.config.collections.posts
+  const fetchPosts = async () => {
+    const posts = await stitchSDK.read(
+      postsCollectionName
     );
     return posts.map(p => new Post(p));
-  }
+  };
 
+  const methodAdapter = (sdkMethod) => {
+    return (credential) => (post) => {
+      return sdkMethod(credential, postsCollectionName, post);
+    }
+  };
+
+  return {
+    fetchPosts,
+    deletePost: methodAdapter(stitchSDK.delete.bind(stitchSDK)),
+    createPost: methodAdapter(stitchSDK.create.bind(stitchSDK)),
+    updatePost: methodAdapter(stitchSDK.update.bind(stitchSDK))
+  }
 };
 
 module.exports = {
-  StitchSDKAdapter,
+  stitchSDKAdapter
 };

@@ -1,6 +1,6 @@
 const {
   fetchPosts
-} = require('../../stitch');
+} = require('../../logic/z-blog/');
 
 const { cors } = require('./utils.js');
 
