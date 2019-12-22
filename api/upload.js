@@ -20,7 +20,7 @@ const upload = multer({
       cb(null, req.body.type || undefined);
     },
     key: function (req, file, cb) {
-      cb(null, `${req.body.id}-${file.originalname}`);
+      cb(null, `${req.body.id}-${file.name}`);
     }
   })
 }).single('file');
