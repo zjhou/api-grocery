@@ -16,11 +16,29 @@ const stitchSDKAdapter = (stitchSDK) => {
     }
   };
 
+  const createPost = methodAdapter((credential, collectionName, doc) => {
+    const insertFn = stitchSDK.create.bind(stitchSDK);
+    return insertFn(credential, collectionName, doc)
+      .then(({ insertedId: id }) => {
+        return { id, ...doc }
+      })
+  });
+
+  const updatePost = methodAdapter((credential, collectionName, doc) => {
+    const updateFn = stitchSDK.update.bind(stitchSDK);
+    return updateFn(credential, collectionName, doc)
+      .then(() => {
+        return doc
+      })
+  });
+
+  const deletePost = methodAdapter(stitchSDK.delete.bind(stitchSDK));
+
   return {
     fetchPosts,
-    deletePost: methodAdapter(stitchSDK.delete.bind(stitchSDK)),
-    createPost: methodAdapter(stitchSDK.create.bind(stitchSDK)),
-    updatePost: methodAdapter(stitchSDK.update.bind(stitchSDK))
+    createPost,
+    updatePost,
+    deletePost
   }
 };
 
