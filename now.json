@@ -19,6 +19,11 @@
       "dest": "/api/z-blog/index.js"
     },
     {
+      "src": "/upload",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/upload.js"
+    },
+    {
       "src": "/z/post/update",
       "methods": ["POST", "OPTIONS"],
       "dest": "/api/z-blog/update_post.js"

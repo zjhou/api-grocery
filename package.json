@@ -9,9 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.595.0",
     "micro-cors": "^0.1.1",
     "mongodb": "^3.4.0",
     "mongodb-stitch-server-sdk": "^4.7.1",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "now": "16.6.3"
   }
 }
