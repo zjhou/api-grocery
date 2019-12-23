@@ -2,16 +2,21 @@ const {
   updatePost
 } = require('../../logic/z-blog/');
 
-const { cors } = require('./utils.js');
+const { cors, objectCompact } = require('./utils.js');
 
 module.exports = cors(async (req, res) => {
   const {
-    user: username, password, id, content, title
+    user: username,
+    password,
+    id,
+    content,
+    title,
+    attachment_url,
   } = req.body;
   const result = await updatePost({
     username, password
-  })({
-    id, content, title
-  });
+  })(objectCompact({
+    id, content, title, attachment_url
+  }));
   res.json(result).end();
 });
