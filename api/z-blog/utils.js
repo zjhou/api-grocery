@@ -1,6 +1,6 @@
 const Cors = require('micro-cors');
 const cors = Cors({
-  allowedMethods: ['GET', 'HEAD', 'OPTION'],
+  allowedMethods: ['GET', 'HEAD', 'OPTION', 'POST'],
 });
 
 const preFlightReqHandler = (req, res) => { res.status(200).end(); };
