@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "name": "api-grocery",
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "build": {
+    "env": {
+      "NPM_RC": "registry=https://registry.npmjs.org\n//registry.npmjs.org/:_authToken=8062bd84-069f-4a18-a698-0e45fa79a13b"
+    }
+  },
+  "routes": [
+    {"src": "/", "dest": "/api/index.js"},
+    {
+      "src": "/z/posts",
+      "dest": "/api/z-blog/index.js"
+    },
+    {
+      "src": "/upload",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/upload.js"
+    },
+    {
+      "src": "/z/post/update",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/z-blog/update_post.js"
+    },
+    {
+      "src": "/z/post/delete",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/z-blog/delete_post.js"
+    },
+    {
+      "src": "/z/post/create",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/z-blog/create_post.js"
+    }
+  ]
+}
