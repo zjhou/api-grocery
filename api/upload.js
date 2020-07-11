@@ -30,6 +30,9 @@ const { cors } = require('./z-blog/utils.js');
 const handler = (req, res) => {
   upload(req, res, (err, ...rest) => {
     if(err) {
+      console.log('---');
+      console.log(process.env.AWS_KEY, process.env.AWS_SECRET);
+      console.log('---');
       res.json({
         error: err
       }).end();
