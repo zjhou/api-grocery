@@ -7,11 +7,6 @@
       "use": "@vercel/node"
     }
   ],
-  "build": {
-    "env": {
-      "NPM_RC": "registry=https://registry.npmjs.org\n//registry.npmjs.org/:_authToken=8062bd84-069f-4a18-a698-0e45fa79a13b"
-    }
-  },
   "routes": [
     {"src": "/", "dest": "/api/index.js"},
     {
